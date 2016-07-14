@@ -62,9 +62,9 @@ public abstract class InjectBasedRunner extends BlockJUnit4ClassRunner {
 
     private List<AbstractModule> getAbstractModules() {
         Properties properties = new Properties();
-        String dbname = System.getenv().getOrDefault("DB_NAME", "newketsu");
+        String dbname = System.getenv().getOrDefault("DB_NAME", "data_store");
         String host = System.getenv().getOrDefault("DB_HOST", "localhost");
-        String port = System.getenv().getOrDefault("DB_PORT", "3307");
+        String port = System.getenv().getOrDefault("DB_PORT", "3306");
         String username = System.getenv().getOrDefault("DB_USERNAME", "mysql");
         String password = System.getenv().getOrDefault("DB_PASSWORD", "mysql");
         String connectURL = String.format(

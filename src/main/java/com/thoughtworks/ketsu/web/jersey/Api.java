@@ -24,7 +24,7 @@ public class Api extends ResourceConfig {
         Properties properties = new Properties();
         String dbname = System.getenv().getOrDefault("DB_NAME", "data_store");
         String host = System.getenv().getOrDefault("DB_HOST", "localhost");
-        String port = System.getenv().getOrDefault("DB_PORT", "3307");
+        String port = System.getenv().getOrDefault("DB_PORT", "3306");
         String username = System.getenv().getOrDefault("DB_USERNAME", "mysql");
         String password = System.getenv().getOrDefault("DB_PASSWORD", "mysql");
         String connectURL = String.format(
@@ -58,7 +58,6 @@ public class Api extends ResourceConfig {
         register(new AbstractBinder() {
             @Override
             protected void configure() {
-                bind(com.thoughtworks.ketsu.infrastructure.repositories.MyBatisUserRepository.class).to(UserRepository.class);
                 bind(DefaultEncryptionService.class).to(EncryptionService.class);
             }
         });
