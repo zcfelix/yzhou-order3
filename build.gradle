@@ -13,7 +13,7 @@ apply plugin: 'java'
 apply plugin: 'flyway'
 apply plugin: 'idea'
 
-def environment = System.getenv()
+def currentEnv = System.getenv()
 
 mainClassName = "com.thoughtworks.ketsu.MainServer"
 
@@ -21,11 +21,11 @@ flyway {
     driver = 'com.mysql.jdbc.Driver'
     url = String.format(
             "jdbc:mysql://%s:%s/%s?user=%s&password=%s&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull",
-            environment.getOrDefault("DB_HOST", "localhost"),
-            environment.getOrDefault("DB_PORT", 3306),
-            environment.getOrDefault("DB_NAME", "data_store"),
-            environment.getOrDefault("DB_USERNAME", "mysql"),
-            environment.getOrDefault("DB_PASSWORD", "mysql"))
+            currentEnv.getOrDefault("DB_HOST", "localhost"),
+            currentEnv.getOrDefault("DB_PORT", 3306),
+            currentEnv.getOrDefault("DB_NAME", "data_store"),
+            currentEnv.getOrDefault("DB_USERNAME", "mysql"),
+            currentEnv.getOrDefault("DB_PASSWORD", "mysql"))
 }
 
 repositories {
@@ -147,6 +147,13 @@ task itestJar(type: Jar, dependsOn: jar) {
         attributes 'Main-Class': 'specs.Main'
     }
 }
+
+task itest(type: Exec) {
+    environment << [ENDPOINT: environment.get("DB_HOST", "localhost")]
+    commandLine 'java', '-jar', "build/libs/verify-standalone.jar"
+}
+
+itest.dependsOn itestJar
 
 itestJar.dependsOn itestClasses
 
