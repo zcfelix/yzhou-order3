@@ -149,7 +149,9 @@ task itestJar(type: Jar, dependsOn: jar) {
 }
 
 task itest(type: Exec) {
-    environment << [ENDPOINT: environment.get("DB_HOST", "localhost")]
+    def _env = [:]
+    _env << System.getenv();
+    environment = _env
     commandLine 'java', '-jar', "build/libs/verify-standalone.jar"
 }
 
