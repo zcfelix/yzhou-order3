@@ -8,8 +8,19 @@ import com.thoughtworks.ketsu.domain.user.UserRole;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.awt.SystemColor.info;
+
 public class TestHelper {
     private static int auto_increment_key = 1;
+
+    public static Map<String, Object> productMap(String name) {
+        return new HashMap<String, Object>() {{
+            put("name", name);
+            put("description", "delicious");
+            put("price", 2.5);
+        }};
+    }
+
     public static Map<String, Object> deployment(String appName, String releaseId) {
         return new HashMap<String, Object>() {{
             put("app", String.format("http://service-api.tw.com/apps/%s", appName));
