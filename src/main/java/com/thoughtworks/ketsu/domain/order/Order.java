@@ -1,11 +1,16 @@
 package com.thoughtworks.ketsu.domain.order;
 
+import com.thoughtworks.ketsu.infrastructure.mybatis.mappers.PaymentMapper;
 import com.thoughtworks.ketsu.infrastructure.records.Record;
 import com.thoughtworks.ketsu.web.jersey.Routes;
 
+import javax.inject.Inject;
 import java.util.*;
 
 public class Order implements Record {
+    @Inject
+    PaymentMapper paymentMapper;
+
     private int id;
     private int userId;
     private String name;
@@ -29,6 +34,17 @@ public class Order implements Record {
     public String getName() {
         return name;
     }
+
+    public Payment createPayment(Map<String, Object> info) {
+        info.put("order_id", id);
+        paymentMapper.save(info);
+        return paymentMapper.findByOrderId(Integer.valueOf(info.get("order_id").toString()));
+    }
+
+    public Optional<Payment> findPayment() {
+        return Optional.ofNullable(paymentMapper.findByOrderId(id));
+    }
+
 
     public Map<String, Object> toJson(Routes routes) {
         return new HashMap<String, Object>() {{
