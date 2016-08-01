@@ -1,14 +1,11 @@
 package com.thoughtworks.ketsu.support;
 
-import com.thoughtworks.ketsu.domain.user.User;
-import com.thoughtworks.ketsu.domain.user.UserId;
-import com.thoughtworks.ketsu.domain.user.UserRepository;
-import com.thoughtworks.ketsu.domain.user.UserRole;
+import com.thoughtworks.ketsu.domain.product.Product;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import static java.awt.SystemColor.info;
 
 public class TestHelper {
     private static int auto_increment_key = 1;
@@ -28,5 +25,23 @@ public class TestHelper {
         }};
     }
 
+    public static Map<String, Object> orderMap(String name, Product product1, Product product2) {
+        List<Map<String, Object>> orderItems = new ArrayList<> ();
+        orderItems.add(new HashMap<String, Object>() {{
+            put("product_id", product1.getId());
+            put("quantity", 200);
+        }});
+        orderItems.add(new HashMap<String, Object>() {{
+            put("product_id", product2.getId());
+            put("quantity", 202);
+        }});
+
+        return new HashMap<String, Object>() {{
+            put("name", name);
+            put("address", "xian");
+            put("phone", "13996630396");
+            put("order_items", orderItems);
+        }};
+    }
 
 }
